@@ -31,11 +31,6 @@ export default {
         },
     },
     darkMode: 'class',
-    // safelist: [
-    //     {
-    //         pattern: /./
-    //     }
-    // ],
     plugins: [
         forms,
         typography,
