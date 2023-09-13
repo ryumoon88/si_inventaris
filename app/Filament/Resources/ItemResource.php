@@ -69,6 +69,13 @@ class ItemResource extends Resource
                         //     ->inlineLabel(false),
                         // Forms\Components\ViewField::make('qr')
                         //     ->view('media-library::image')
+                        //     ->formatStateUsing(function ($record) {
+                        //         return QrCode::create('aa');
+                        //     })
+                        Forms\Components\View::make('qr-code')->columnSpan([
+                            'default' => 1,
+                            'sm' => 2
+                        ])
                     ]),
                 Forms\Components\TextInput::make('name')
                     ->required()
