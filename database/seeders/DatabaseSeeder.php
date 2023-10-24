@@ -31,11 +31,11 @@ class DatabaseSeeder extends Seeder
 
             // ProductCategorySeeder::class,
             // ProductSeeder::class,
-            SupplierSeeder::class,
+            // SupplierSeeder::class,
             ItemCategorySeeder::class,
             ItemSeeder::class,
 
-            ItemTransactionSeeder::class
+            // ItemTransactionSeeder::class
         ]);
     }
 }

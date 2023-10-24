@@ -13,6 +13,31 @@ class ItemCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        ItemCategory::factory(10)->create();
+        // ItemCategory::factory(10)->create();
+
+        $datas = [
+            [
+                'name' => 'Camera',
+                'slug' => 'camera',
+            ],
+            [
+                'name' => 'Camera DSLR',
+                'slug' => 'camera-dslr',
+            ],
+            [
+                'name' => 'Drone',
+                'slug' => 'drone',
+            ],
+            [
+                'name' => 'Tripod',
+                'slug' => 'tripod',
+            ],
+            [
+                'name' => 'Actioncam',
+                'slug' => 'actioncam',
+            ],
+        ];
+
+        ItemCategory::insert($datas);
     }
 }

@@ -115,7 +115,7 @@ class ItemTransactionResource extends Resource implements HasShieldPermissions
                             })
                     ])
                     ->hiddenOn(['edit', 'create'])
-                    ->hidden(fn (?ItemTransaction $record) => $record?->status == 'Pending'),
+                // ->hidden(fn (?ItemTransaction $record) => $record?->status == 'Pending'),
 
             ]);
     }
