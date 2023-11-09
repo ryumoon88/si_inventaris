@@ -48,35 +48,12 @@ class ItemResource extends Resource
             ->schema([
                 Forms\Components\Grid::make()
                     ->schema([
-                        // Forms\Components\FileUpload::make('qr_code')
-                        //     ->image()
-                        //     ->formatStateUsing(function (?Item $record) {
-                        //         $writer = new PngWriter();
-                        //         $qrCode = QrCode::create(route('filament.resources.items.view', ['record' => $record]))
-                        //             ->setEncoding(new Encoding('UTF-8'))
-                        //             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
-                        //             ->setSize(300)
-                        //             ->setMargin(10)
-                        //             ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
-                        //             ->setForegroundColor(new Color(0, 0, 0))
-                        //             ->setBackgroundColor(new Color(255, 255, 255));
-                        //         // dd(public_path());
-                        //         // $writer->write($qrCode)->saveToFile(storage_path('app\\public\\qrcodes\\') . 'qrcode.png');
-                        //         return ['http://inventory.test/public/qrcodes/qrcode.png'];
-                        //     })
-                        //     ->panelAspectRatio('1:1')
-                        //     ->multiple(false)
-                        //     ->inlineLabel(false),
-                        // Forms\Components\ViewField::make('qr')
-                        //     ->view('media-library::image')
-                        //     ->formatStateUsing(function ($record) {
-                        //         return QrCode::create('aa');
-                        //     })
+
                         Forms\Components\View::make('qr-code')->columnSpan([
                             'default' => 1,
                             'sm' => 2
                         ])
-                    ]),
+                    ])->hiddenOn(['create']),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255)
