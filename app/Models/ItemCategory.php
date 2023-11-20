@@ -11,6 +11,7 @@ use Spatie\Sluggable\SlugOptions;
 class ItemCategory extends Model
 {
     use HasFactory, SoftDeletes, HasSlug;
+    protected $guarded = [];
 
     public function getSlugOptions(): SlugOptions
     {
