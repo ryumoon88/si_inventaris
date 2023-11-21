@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use Filament\Facades\Filament;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use JeffGreco13\FilamentBreezy\Events\LoginSuccess;
@@ -22,9 +23,8 @@ class LoginSuccessNotification
     /**
      * Handle the event.
      */
-    public function handle(LoginSuccess $event): void
+    public function handle(Login $event): void
     {
-
         $description = Filament::getUserName($event->user) . ' logged in';
 
         app(ActivityLogger::class)

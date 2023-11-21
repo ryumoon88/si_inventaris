@@ -75,10 +75,12 @@ class ItemResource extends Resource
                     ->hint('without loaned stocks')
                     ->label('Quantity')
                     ->formatStateUsing(function (?Item $record, string $context) {
+                        if ($context == 'view') {
+                            return $record->quantity_in_stock - $record->loan_items()->sum('amount');
+                        }
                         if ($context != 'edit') {
                             return;
                         }
-                        return $record->quantity_in_stock - $record->loan_items()->sum('amount');
                     })
                     ->hiddenOn(['create', 'edit']),
                 Forms\Components\TextInput::make('quantity_in_stock')

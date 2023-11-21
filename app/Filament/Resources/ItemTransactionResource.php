@@ -2,12 +2,15 @@
 
 namespace App\Filament\Resources;
 
+use App\Exports\ItemTransactionsExport;
 use App\Filament\Resources\ItemTransactionResource\Pages;
 use App\Filament\Resources\ItemTransactionResource\RelationManagers;
 use App\Models\ItemTransaction;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Form;
@@ -19,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Arr;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ItemTransactionResource extends Resource implements HasShieldPermissions
 {
@@ -27,6 +31,7 @@ class ItemTransactionResource extends Resource implements HasShieldPermissions
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationGroup = "Transactions";
+
 
     public static function form(Form $form): Form
     {
@@ -214,6 +219,34 @@ class ItemTransactionResource extends Resource implements HasShieldPermissions
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+            ])
+            ->appendHeaderActions([
+                Tables\Actions\Action::make('export')
+                    ->form([
+                        Grid::make(12)->schema([
+                            DatePicker::make('date_start')
+                                ->columnSpan(6)
+                                ->maxDate(now()->yesterday()->startOfDay())
+                                ->reactive()
+                                ->format('Y-m-d')
+                                ->required(),
+                            DatePicker::make('date_end')
+                                ->columnSpan(6)
+                                ->disabled(function ($get) {
+                                    return $get('date_start') == null;
+                                })
+                                ->minDate(function ($get) {
+                                    return $get('date_start');
+                                })
+                                ->maxDate(now()->endOfDay())
+                                ->format('Y-m-d')
+                                ->required()
+                        ]),
+                    ])
+                    ->action(function ($action) {
+                        $formData = $action->getFormData();
+                        return Excel::download(new ItemTransactionsExport($formData['date_start'], $formData['date_end']), 'transactions-' . now() . '.xlsx');
+                    })
             ]);
     }
 
@@ -229,6 +262,7 @@ class ItemTransactionResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListItemTransactions::route('/'),
             'create' => Pages\CreateItemTransaction::route('/create'),
+            'export' => Pages\ExportItemTransaction::route('/export'),
             'view' => Pages\ViewItemTransaction::route('/{record}'),
             'edit' => Pages\EditItemTransaction::route('/{record}/edit'),
         ];

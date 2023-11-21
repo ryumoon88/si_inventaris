@@ -21,11 +21,10 @@ class Login extends AuthLogin
             'password' => $data['password'],
         ], $data['remember'])) {
             $this->addError($this->loginColumn, __('filament::login.messages.failed'));
-
             return null;
         }
         event(new LoginSuccess(Filament::auth()->user()));
-        
+
         return app(LoginResponse::class);
     }
 }
