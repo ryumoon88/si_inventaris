@@ -52,7 +52,7 @@ class ItemTransactionsExport implements FromCollection, WithHeadings, WithMappin
     public function collection()
     {
         $sum = new Collection();
-        $transactions = ItemTransaction::with(['item'])->orderBy('created_at', 'asc')->get();
+        $transactions = ItemTransaction::with(['item'])->where('created_at', '>=', $this->date_start)->where('created_at', '<=', $this->date_end)->orderBy('created_at', 'asc')->get();
         $transactions->each(function ($transaction, $index) use ($sum) {
             // if (!Arr::has($this->stockMapping, $transaction->item_id)) {
             //     Arr::set($this->stockMapping, $transaction->item_id, $transaction->amount);
