@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('item_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('item_id');
-            $table->foreignId('supplier_id');
-            $table->foreignId('issuer_id');
+            $table->foreignId('item_id')->constrained();
+            $table->foreignId('supplier_id')->constrained();
+            $table->foreignId('issuer_id')->constrained("users");
             $table->integer('amount');
             $table->integer('price_each');
             $table->enum('status', ['Approved', 'Rejected', 'Pending'])->default('Pending');

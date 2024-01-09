@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->foreignId('item_category_id');
-            $table->foreignId('supplier_id')->nullable();
+            $table->foreignId('item_category_id')->constrained();
+            $table->foreignId('supplier_id')->nullable()->constrained();
             $table->text('description')->nullable();
             $table->integer('buy_price');
             // $table->integer('sell_price');
