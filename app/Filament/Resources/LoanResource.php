@@ -52,14 +52,7 @@ class LoanResource extends Resource
                                     ->required()
                                     ->reactive(),
                                 Forms\Components\TextInput::make('amount')
-                                    ->mask(function (TextInput\Mask $mask, $get) {
-                                        if ($itemId = $get('item_id')) {
-                                            $item = Item::find($itemId);
-                                            return $mask->maxValue($item->quantity_in_stock)
-                                                ->minValue(1)
-                                                ->numeric();
-                                        }
-                                    })
+                                    ->integer()
                                     ->required()
                                     ->postfix(function ($get) {
                                         if ($itemId = $get('item_id')) {
@@ -97,6 +90,8 @@ class LoanResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make("Mark as returned")
+                    ->action(fn (Loan $record) => $record->update(['returned_at' => now()])),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
