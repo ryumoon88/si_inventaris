@@ -63,6 +63,11 @@ class ItemResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required(),
+                Forms\Components\Select::make('supplier_id')
+                    ->relationship('supplier', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
                 Forms\Components\Textarea::make('description')
                     ->required()
                     ->maxLength(65535),
@@ -99,6 +104,8 @@ class ItemResource extends Resource
                     ->sortable(),
                 Tables\Columns\BadgeColumn::make('category.name')
                     ->color('primary')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('supplier.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('buy_price')
                     ->prefix('Rp. ')
